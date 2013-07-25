@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Visualizing 500 Days of Summer</title>
+		<script type="text/javascript" src="./js/d3.v3.js"></script>		
+		<style>
+/** Add CSS rules here */
+#main-c {
+width: 900px;
+margin: 0 auto;
+}
+
+#info-c {
+position:absolute;
+width: 900px;
+//background: rgba(10,10,10,0.1);
+padding: 50px 30px 0;
+}
+
+#info-c > div {
+text-align: center;
+}
+
+#day {
+font-size: 5em;
+font-family: Helvetica;
+color: rgb(80,140,240);
+}
+
+#place {
+font-size: 1em;
+font-weight: bold;
+font-family: Helvetica, Arial ,sans-serif;
+}
+
+#quote {
+padding: 0.5em 0;
+}
+
+#quote pre {
+font-size: 1.5em;
+font-style: italic;
+font-family: Georgia;
+display:inline-block;
+background: rgba(20,80,220,0.4);
+color: #eee;
+padding: 0.5em;
+}
+
+		</style>
+	</head>
+	<body>
+	<div id="main-c">
+		<div id="info-c">
+			<div id="day">400</div>
+			<div id="place">(At the park)</div>
+			<div id="quote"><pre>
+“Hi, Tom!”
+“Hey. Summer. I must have walked right by you.”
+“Yeah.”</pre></div>
+		</div>
+		<center id="svg-c"></center>
+	</div>
+		<script type="text/javascript">
+
+			//d3.csv("./data/Pi-150-v2.csv", function(data) { console.log(data); });
+			var w=700;
+			var h=700;
+
+			//Var for plotting
+				var delta = 20;
+				var xScale = w/(500+delta*2);				
+				var rScale=3;	//Scale for day-circles
+
+				var aDelay=400;	//Delay per day
+
+			var svg=d3.select("#svg-c")
+						.append("svg")
+						.attr("width",w)
+						.attr("height",h);
+
+			var myData;
+			d3.csv("./data/500-days-data-v2.csv", function(error,data)
+			{
+			  if (error) {  
+			  	//If error is not null, something went wrong.
+      		console.log(error);  //Log the error.
+        } else {      
+          //If no error, the file loaded correctly. Yay!
+          console.log("Dataset loaded!");
+	        // console.log(data[0].Scene+ " "+data[10].Day);   //Log the data.
+				 	// console.log(data); 
+				 	// return data; 
+				 	myData = data.map(function(d) { return [ +d["Scene"], d["Day"] ]; });
+				 	// console.log(myData);   //Log the data.
+				 	generateViz(data);				 	
+		 		}
+			 });
+			function xPos(day) {
+
+				if(day!="x")
+				{
+				// console.log(day*1+5);
+				// dummy=d*1;
+				return(delta+day*xScale);
+				}
+				else return 0;			
+			}
+			function generateViz(data) {				
+				//////////////////////////////////////////////////////
+				///*
+				// Draw Arcs
+///*
+				var lastDay = -30;				
+
+				var arcs = svg.selectAll("path")
+											.data(data)
+											.enter()
+											.append("path")
+											.attr({
+												d: function(d,i) {													
+													var nextX = xPos(d.Day);
+													if(nextX>0)
+													{
+														var prevX = xPos(lastDay);
+														var r = Math.abs((nextX-prevX)/2);
+														lastDay = d.Day;
+														// console.log("M "+prevX+" "+(h/2)+" A "+r+" "+r+" 0 0 1 "+nextX+" "+(h/2));
+														return "M "+prevX+" "+(h/2)+" A "+r+" "+(r)+" 0 0 1 "+nextX+" "+(h/2);			
+													} else return "M 0 0";
+												},
+												'fill': 'none',
+												'opacity': 0.2,
+												'stroke': "rgb(220,220,250)", //250
+												'stroke-width': "2",
+												//'stroke-dasharray': "10, 3000"
+											})
+											.transition()
+											.duration(aDelay*2)
+											.ease("linear")
+											.delay(function(d,i) {return i*aDelay;})
+											.attr({	
+												'stroke': "rgb(220,20,80)",
+												'stroke-dasharray': "3000, 10"
+											})
+											.transition()
+											.duration(aDelay)
+											.ease("linear")
+											.delay(function(d,i) {return (i+1)*aDelay;})
+											.attr({	
+												'stroke': "rgb(180,180,250)",
+											});
+//*/
+				//////////////////////////////////////////////////////
+				///*
+				// Draw Circles
+
+				var circles = svg.selectAll("circles")
+													.data(data)
+													.enter()
+													.append("circle")
+													.attr({
+														cx: function(d, i) {
+															if(d.Day!="x")
+															{
+															// console.log(d.Day*1+5);
+															return(delta+d.Day*xScale);
+															}
+															else return 0;
+														},
+														cy: h/2,
+														r: function(d) {
+															if(d.Day!="x")
+															{
+																return d.Scene*rScale/250+5;
+															} 
+															else return 0;
+														},	
+														fill: "rgb(20,80,220)",
+														opacity: 0.05
+													})
+													.transition()
+													.duration(aDelay/2)
+													.ease("linear")
+													.delay(function(d,i) {return (i+1)*aDelay-100;})
+													.attr({
+														r: function(d) {
+															if(d.Day!="x")
+															{
+																return d.Scene*rScale/250+7;
+															} 
+															else return 0;
+														},
+														fill: "rgb(20,80,220)",
+														opacity: 0.5
+													});
+				//*/
+				////////////////////////////////////////////////////////
+				/*
+				//Add Labels
+				var labels = svg.selectAll("text")
+											   .data(data)
+											   .enter()
+											   .append("text");
+				
+				labels.text(function(d){
+					return d.Day;
+				})
+				.attr("x", function(d) {			    
+						if(d.Day!="x")
+						{
+						console.log(d.Day*1+5);
+						// dummy=d*1;
+						return(delta+d.Day*xScale);
+						}
+						else return 0;
+			  })
+			  .attr("y", h/2+20)
+			  .attr("font-family", "sans-serif")
+		   	.attr("font-size", "11px")
+		   	.attr("fill", "blue")
+		   	.attr("text-anchor", "middle");
+				//*/
+			
+			} //End generateViz()
+
+		</script>
+	</body>
+</html>
