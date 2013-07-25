@@ -26,10 +26,10 @@ text-align: center;
 font-size: 5em;
 font-family: Helvetica;
 color: rgb(200,200,200);
--webkit-transition: opacity 1s;
--moz-transition: opacity 1s;
--o-transition: opacity 1s;
-transition: opacity 1s;
+-webkit-transition: opacity 0.5s;
+-moz-transition: opacity 0.5s;
+-o-transition: opacity 0.5s;
+transition: opacity 0.5s;
 }
 
 #day > span {
@@ -43,21 +43,31 @@ transition: 0.5s;
 font-size: 1em;
 font-weight: bold;
 font-family: Helvetica, Arial ,sans-serif;
+-webkit-transition: opacity 1s;
+-moz-transition: opacity 1s;
+-o-transition: opacity 1s;
+transition: opacity 1s;
+color: #bbb;
 }
 
 #quote {
-padding: 0.5em 0;
+	padding: 0.5em 0;
+	opacity: 0;
+	-webkit-transition: opacity 1s;
+	-moz-transition: opacity 1s;
+	-o-transition: opacity 1s;
+	transition: opacity 1s;
 }
 
 #quote pre {
-
-	font-size: 1.5em;
+	font-size: 1em;
 	font-style: italic;
 	font-family: Georgia;
 	display:inline-block;
-	background: rgba(200,200,220,0.4);
+	background: "#A5AAD9";
 	color: #eee;
-	padding: 0.5em;
+	padding: 0.75em 1em;
+
 }
 
 		</style>
@@ -65,8 +75,8 @@ padding: 0.5em 0;
 	<body>
 	<div id="main-c">
 		<div id="info-c">
-			<div id="day">400</div>
-			<div id="place">(At the park)</div>
+			<div id="day">500 Days</div>
+			<div id="place">Visualizing the movie narrative of 500 Days of Summer</div>
 			<div id="quote"><pre>
 ♡“Hi, Tom!”
 “Hey. Summer. I must have walked right by you.”
@@ -91,7 +101,9 @@ padding: 0.5em 0;
 				var xScale = w/(500+delta*2);				
 				var rScale=2;	//Scale for day-circles
 
+				var initDelay = 1000;	//Initial Delay before starting
 				var aDelay=1200;	//Delay per day
+				var fadeDay; //Timeout for fading day text
 
 			var svg=d3.select("#svg-c")
 						.append("svg")
@@ -99,7 +111,7 @@ padding: 0.5em 0;
 						.attr("height",h);
 
 			var myData;
-			d3.csv("./data/500-days-data-v2.csv", function(error,data)
+			d3.csv("./data/500-days-data-v3.csv", function(error,data)
 			{
 			  if (error) {  
 			  	//If error is not null, something went wrong.
@@ -158,22 +170,22 @@ padding: 0.5em 0;
 												'opacity': 0.4,
 												'stroke': "rgb(230,230,255)", //250
 												'stroke-width': "2",
-												//'stroke-dasharray': "10, 3000"
+												'stroke-dasharray': "1, 3000"
 											})
 											.transition()
 											.duration(aDelay*2)
 											.ease("linear")
-											.delay(function(d,i) {return i*aDelay;})
+											.delay(function(d,i) {return i*aDelay + initDelay;})
 											.attr({	
 												'stroke': "rgb(20,30,80)",
-												'stroke-dasharray': "3000, 10"
+												'stroke-dasharray': "3000, 1"
 											})
 											.transition()
 											.duration(aDelay)
 											.ease("linear")
-											.delay(function(d,i) {return (i+1)*aDelay;})
+											.delay(function(d,i) {return (i+1)*aDelay + initDelay;})
 											.attr({	
-												'stroke': "rgb(180,180,250)",
+												'stroke': love_colors[1]
 											});
 //*/
 				//////////////////////////////////////////////////////
@@ -197,33 +209,38 @@ padding: 0.5em 0;
 														r: function(d) {
 															if(d.Day!="x")
 															{
-																return d.Scene*rScale/250+5;
+																return 5;
 															} 
 															else return 0;
 														},	
 														fill: "rgb(200,200,200)",
 														opacity: 0.3
 													})
-													.on("mouseover", function() {
+													.on("mouseover", function(d) {
 													        d3.select(this)
-													          .attr("fill", "orange");
+													          .attr("opacity", 1);
+													          showFullText(d.Together*1, d.Day, d.Desc,d.Quote);
+													})
+													.on("mouseout", function() {
+													        d3.select(this)
+													          .attr("opacity", 0.7);
+													          showText(1, 530);
 													})
 													.transition()
-													.duration(aDelay)
+													.duration(aDelay*2/3)
 													.ease("linear")
-													.delay(function(d,i) {return (i+1)*aDelay-100;})
+													.delay(function(d,i) {return (i)*aDelay + initDelay +200;})
 													.attr({
 														r: function(d,i) {
 															if(d.Day!="x")
 															{
-																setTimeout(function () {showText(d.Together*1, d.Day);},(i+1)*aDelay-100);
+																setTimeout(function () {showText(d.Together*1, d.Day);},(i+1)*aDelay-200);
 																
 																return d.Scene*rScale/250+7;																
 															} 
 															else return 0;
 														},
-														fill: function(d) {															
-															// console.log(love_colors[d.Together*1+1]);
+														fill: function(d) {
 															return love_colors[d.Together*1+1];
 														},
 														opacity: 0.7
@@ -261,18 +278,50 @@ padding: 0.5em 0;
 			
 			} //End generateViz()
 
-			function showText(t_status, t_day, t_desc, t_quote) {
+			function showFullText(t_status, t_day, t_desc, t_quote) {
 
+				var day_c = document.getElementById('day');
+				var place_c = document.getElementById('place');
+				var quote_c = document.getElementById('quote');
+
+				if(t_day>500) {
+					t_day = 1;
+				}
+				if(quote_c.style.opacity <0.5) quote_c.style.opacity = 0.8;
+
+				if(t_status == 1) {
+					day_c.innerHTML = "<span style='color:"+love_colors[2]+"'> ♥"+t_day+"</span>";
+					place_c.innerHTML = "("+t_desc+")";
+					quote_c.innerHTML = "<pre style='background:"+love_colors[2]+"'>"+t_quote+"</pre>";
+				}
+				else if(t_status == -1) {
+					day_c.innerHTML = "<span style='color:"+love_colors[0]+"'> ♥"+t_day+"</span>";
+					place_c.innerHTML = "("+t_desc+")";
+					quote_c.innerHTML = "<pre style='background:"+love_colors[0]+"'>"+t_quote+"</pre>";
+				} 
+				else {
+					day_c.innerHTML = "<span style='color:"+love_colors[1]+"'> ♥"+t_day+"</span>";
+					place_c.innerHTML = "("+t_desc+")";
+					quote_c.innerHTML = "<pre style='background:"+love_colors[1]+"'>"+t_quote+"</pre>";
+				}
+				clearTimeout(fadeDay);
 			}
 
 			function showText(t_status, t_day) {
 				var day_c = document.getElementById('day');
 				var place_c = document.getElementById('place');
-				var quote_c = document.getElementById('place');
-				place_c.style.display = 'none';
-				quote_c.style.display = 'none';
+				var quote_c = document.getElementById('quote');
 
+				place_c.style.opacity = 0;
+				quote_c.style.opacity = 0;
 				day_c.style.opacity = 1;
+
+				if(t_day>500) {
+					t_day = 1;
+					place_c.style.opacity = 1;
+					place_c.innerHTML = "(<em>Hover over the bubbles for scene description & quotes!</em>)"
+				}
+
 				if(t_status == 1) {
 					day_c.innerHTML = "<span style='color:"+love_colors[2]+"'> ♥"+t_day+"</span>";
 				}
@@ -281,8 +330,8 @@ padding: 0.5em 0;
 				} else {
 					day_c.innerHTML = "<span style='color:"+love_colors[1]+"'> ♡"+t_day+"</span>";
 				}
-
-				setTimeout(function() { document.getElementById('day').style.opacity = 0.5;}, 500);
+				clearTimeout(fadeDay);
+				fadeDay = setTimeout(function() { document.getElementById('day').style.opacity = 0.7;}, 500);
 			}
 
 		</script>
