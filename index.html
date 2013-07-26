@@ -57,17 +57,39 @@ table {
 
 /* /////////////// Main CSS ////////////// */
 
-
 #main-c {
 width: 900px;
 margin: 0 auto;
+padding: 30px;
 position:relative;
+}
+
+#heading-c {
+opacity:0;
+-webkit-transition: opacity 0.5s;
+-moz-transition: opacity 0.5s;
+-o-transition: opacity 0.5s;
+transition: opacity 0.5s;
+padding: 10px 30px;
+min-height: 50px;
+font-family: Helvetica, Arial, sans-serif;
+position: absolute;
+}
+
+#heading-c h3 {
+font-weight: bold;
+color: #A5AAD9;
+}
+
+#heading-c h4 {
+color: #ccc;
+font-size: 0.8em;
+line-height: 1.25em;
 }
 
 #info-c {
 position:absolute;
 width: 900px;
-//background: rgba(10,10,10,0.1);
 padding: 50px 30px 0;
 }
 
@@ -76,9 +98,9 @@ text-align: center;
 }
 
 #day {
-font-size: 5em;
+font-size: 4em;
 font-family: Helvetica;
-color: rgb(200,200,200);
+padding-bottom: 5px;
 -webkit-transition: opacity 0.5s;
 -moz-transition: opacity 0.5s;
 -o-transition: opacity 0.5s;
@@ -86,6 +108,7 @@ transition: opacity 0.5s;
 }
 
 #day > span {
+color: #A5AAD9;
 -webkit-transition: 0.5s;
 -moz-transition: 0.5s;
 -o-transition: 0.5s;
@@ -124,8 +147,8 @@ color: #bbb;
 
 #info-footer {
 position:absolute;
-bottom:0;
-right: 0;
+top: 620px;
+right: 80px;
 }
 
 #info-footer li > span {
@@ -136,15 +159,20 @@ padding: 0.25em 0.5em;
 
 		</style>
 	</head>
-	<body>
+	<body>	
 	<div id="main-c">
+		<div id="heading-c">
+			<h3>Visualizing 500 Days of Summer</h3>
+			<h4>By Rasagy Sharma, NID Bangalore<br />View the code on <a href="https://github.com/rasagy/500days" style="color:#A5AAD9; font-style: italic">Github</a></h4>
+			</div>
 		<div id="info-c">
-			<div id="day">500 Days</div>
+			<div id="day"><span>500 Days</span></div>
 			<div id="place">Visualizing the movie narrative of 500 Days of Summer.</div>
 			<div id="quote"><pre></pre></div>
 		</div>
 		<center id="svg-c"></center>
 		<div id="info-footer">
+		<div class="heading"></div>
 			<ul>
 				<li style='color:#FE4365'> ❤ <span style='background-color:#FE4365'>Together</span></li>
 				<li style='color:#7E5686'> ♡ &nbsp;<span style='background-color:#7E5686'> Not together</span></li>
@@ -167,11 +195,12 @@ padding: 0.25em 0.5em;
 			//Var for plotting
 				var delta = 20;
 				var xScale = w/(500+delta*2);				
-				var rScale=2;	//Scale for day-circles
+				var rScale=4;	//Scale for day-circles
 
-				var initDelay = 1000;	//Initial Delay before starting
+				var initDelay = 2000;	//Initial Delay before starting
 				var aDelay=1200;	//Delay per day
 				var fadeDay; //Timeout for fading day text
+				var isAniOver = false;				
 
 			var svg=d3.select("#svg-c")
 						.append("svg")
@@ -277,7 +306,7 @@ padding: 0.25em 0.5em;
 														r: function(d) {
 															if(d.Day!="x")
 															{
-																return 5;
+																return 3;
 															} 
 															else return 0;
 														},	
@@ -287,12 +316,16 @@ padding: 0.25em 0.5em;
 													.on("mouseover", function(d) {
 													        d3.select(this)
 													          .attr("opacity", 1);
-													          showFullText(d.Together*1, d.Day, d.Desc,d.Quote);
+													          if(isAniOver) {
+													          	showFullText(d.Together*1, d.Day, d.Desc,d.Quote);
+													          }
 													})
 													.on("mouseout", function() {
 													        d3.select(this)
 													          .attr("opacity", 0.7);
-													          showText(1, 530);
+													          if(isAniOver) {
+													          	showText(1, 530);
+													          }													          
 													})
 													.transition()
 													.duration(aDelay*2/3)
@@ -302,8 +335,8 @@ padding: 0.25em 0.5em;
 														r: function(d,i) {
 															if(d.Day!="x")
 															{
-																setTimeout(function () {showText(d.Together*1, d.Day);},(i+1)*aDelay-200);
-																
+																setTimeout(function () {showText(d.Together*1, d.Day);},(i)*aDelay + initDelay + 200);
+																console.log("R for "+d.Scene+" = "+d.Scene*rScale/250+3);
 																return d.Scene*rScale/250+7;																
 															} 
 															else return 0;
@@ -388,6 +421,8 @@ padding: 0.25em 0.5em;
 					t_day = 1;
 					place_c.style.opacity = 1;
 					place_c.innerHTML = "(<em>Hover over the bubbles for scene description & quotes!</em>)"
+					isAniOver = true;
+					document.getElementById('heading-c').style.opacity = 1;
 				}
 
 				if(t_status == 1) {
