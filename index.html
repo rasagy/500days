@@ -5,10 +5,63 @@
 		<title>Visualizing 500 Days of Summer</title>
 		<script type="text/javascript" src="./js/d3.v3.js"></script>		
 		<style>
-/** Add CSS rules here */
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* /////////////// Main CSS ////////////// */
+
+
 #main-c {
 width: 900px;
 margin: 0 auto;
+position:relative;
 }
 
 #info-c {
@@ -67,7 +120,18 @@ color: #bbb;
 	background: "#A5AAD9";
 	color: #eee;
 	padding: 0.75em 1em;
+}
 
+#info-footer {
+position:absolute;
+bottom:0;
+right: 0;
+}
+
+#info-footer li > span {
+color: #eee;
+display:inline-block;
+padding: 0.25em 0.5em;
 }
 
 		</style>
@@ -76,13 +140,17 @@ color: #bbb;
 	<div id="main-c">
 		<div id="info-c">
 			<div id="day">500 Days</div>
-			<div id="place">Visualizing the movie narrative of 500 Days of Summer</div>
-			<div id="quote"><pre>
-♡“Hi, Tom!”
-“Hey. Summer. I must have walked right by you.”
-“Yeah.”</pre></div>
+			<div id="place">Visualizing the movie narrative of 500 Days of Summer.</div>
+			<div id="quote"><pre></pre></div>
 		</div>
 		<center id="svg-c"></center>
+		<div id="info-footer">
+			<ul>
+				<li style='color:#FE4365'> ❤ <span style='background-color:#FE4365'>Together</span></li>
+				<li style='color:#7E5686'> ♡ &nbsp;<span style='background-color:#7E5686'> Not together</span></li>
+				<li style='color:#A5AAD9'> ♡ &nbsp;<span style='background-color:#A5AAD9'> Acquaintance</span></li>
+			</ul>
+		</div>
 	</div>
 		<script type="text/javascript">
 
@@ -111,7 +179,7 @@ color: #bbb;
 						.attr("height",h);
 
 			var myData;
-			d3.csv("./data/500-days-data-v3.csv", function(error,data)
+			d3.csv("./data/500-days-data-v4.csv", function(error,data)
 			{
 			  if (error) {  
 			  	//If error is not null, something went wrong.
@@ -177,7 +245,7 @@ color: #bbb;
 											.ease("linear")
 											.delay(function(d,i) {return i*aDelay + initDelay;})
 											.attr({	
-												'stroke': "rgb(20,30,80)",
+												'stroke': "rgb(10,20,40)",
 												'stroke-dasharray': "3000, 1"
 											})
 											.transition()
@@ -290,17 +358,17 @@ color: #bbb;
 				if(quote_c.style.opacity <0.5) quote_c.style.opacity = 0.8;
 
 				if(t_status == 1) {
-					day_c.innerHTML = "<span style='color:"+love_colors[2]+"'> ♥"+t_day+"</span>";
+					day_c.innerHTML = "<span style='color:"+love_colors[2]+"'> ❤"+t_day+"</span>";
 					place_c.innerHTML = "("+t_desc+")";
 					quote_c.innerHTML = "<pre style='background:"+love_colors[2]+"'>"+t_quote+"</pre>";
 				}
 				else if(t_status == -1) {
-					day_c.innerHTML = "<span style='color:"+love_colors[0]+"'> ♥"+t_day+"</span>";
+					day_c.innerHTML = "<span style='color:"+love_colors[0]+"'> ♡"+t_day+"</span>";
 					place_c.innerHTML = "("+t_desc+")";
 					quote_c.innerHTML = "<pre style='background:"+love_colors[0]+"'>"+t_quote+"</pre>";
 				} 
 				else {
-					day_c.innerHTML = "<span style='color:"+love_colors[1]+"'> ♥"+t_day+"</span>";
+					day_c.innerHTML = "<span style='color:"+love_colors[1]+"'> ♡"+t_day+"</span>";
 					place_c.innerHTML = "("+t_desc+")";
 					quote_c.innerHTML = "<pre style='background:"+love_colors[1]+"'>"+t_quote+"</pre>";
 				}
@@ -323,7 +391,7 @@ color: #bbb;
 				}
 
 				if(t_status == 1) {
-					day_c.innerHTML = "<span style='color:"+love_colors[2]+"'> ♥"+t_day+"</span>";
+					day_c.innerHTML = "<span style='color:"+love_colors[2]+"'> ❤"+t_day+"</span>";
 				}
 				else if(t_status == -1) {
 					day_c.innerHTML = "<span style='color:"+love_colors[0]+"'> ♡"+t_day+"</span>";
