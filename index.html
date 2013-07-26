@@ -266,8 +266,8 @@ padding: 0.25em 0.5em;
 													} else return "M 0 0";
 												},
 												'fill': 'none',
-												'opacity': 0.4,
-												'stroke': "rgb(230,230,255)", //250
+												'opacity': 0.6,
+												'stroke': "rgb(10,20,40)", //250
 												'stroke-width': "2",
 												'stroke-dasharray': "1, 3000"
 											})
@@ -276,7 +276,8 @@ padding: 0.25em 0.5em;
 											.ease("linear")
 											.delay(function(d,i) {return i*aDelay + initDelay;})
 											.attr({	
-												'stroke': "rgb(10,20,40)",
+												'stroke': "rgb(210,220,240)",
+												'stroke-width': "4",
 												'stroke-dasharray': "3000, 1"
 											})
 											.transition()
@@ -284,6 +285,8 @@ padding: 0.25em 0.5em;
 											.ease("linear")
 											.delay(function(d,i) {return (i+1)*aDelay + initDelay;})
 											.attr({	
+												'stroke-width': "2",
+												'opacity': 0.6,
 												'stroke': love_colors[1]
 											});
 //*/
