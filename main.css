@@ -1,0 +1,157 @@
+/*
+Main.css for 500 Days of Summer visualization
+*/
+
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* /////////////// Main CSS ////////////// */
+
+#main-c {
+width: 900px;
+margin: 0 auto;
+padding: 30px;
+position:relative;
+}
+
+#heading-c {
+opacity:0;
+-webkit-transition: opacity 0.5s;
+-moz-transition: opacity 0.5s;
+-o-transition: opacity 0.5s;
+transition: opacity 0.5s;
+padding: 10px 30px;
+min-height: 50px;
+font-family: Helvetica, Arial, sans-serif;
+position: absolute;
+top:10px;
+z-index: 100;
+}
+
+#heading-c h3 {
+font-weight: bold;
+color: #A5AAD9;
+}
+
+#heading-c h4 {
+color: #ccc;
+font-size: 0.8em;
+line-height: 1.25em;
+}
+
+#info-c {
+position:absolute;
+width: 900px;
+padding: 50px 30px 0;
+}
+
+#info-c > div {
+text-align: center;
+}
+
+#day {
+font-size: 4em;
+font-family: Helvetica;
+padding-bottom: 5px;
+-webkit-transition: opacity 0.5s;
+-moz-transition: opacity 0.5s;
+-o-transition: opacity 0.5s;
+transition: opacity 0.5s;
+}
+
+#day > span {
+color: #A5AAD9;
+-webkit-transition: 0.5s;
+-moz-transition: 0.5s;
+-o-transition: 0.5s;
+transition: 0.5s;
+}
+
+#place {
+font-size: 1em;
+font-weight: bold;
+font-family: Helvetica, Arial ,sans-serif;
+-webkit-transition: opacity 1s;
+-moz-transition: opacity 1s;
+-o-transition: opacity 1s;
+transition: opacity 1s;
+color: #bbb;
+}
+
+#quote {
+	padding: 0.5em 0;
+	opacity: 0;
+	-webkit-transition: opacity 1s;
+	-moz-transition: opacity 1s;
+	-o-transition: opacity 1s;
+	transition: opacity 1s;
+}
+
+#quote pre {
+	font-size: 1em;
+	font-style: italic;
+	font-family: Georgia;
+	display:inline-block;
+	background: "#A5AAD9";
+	color: #eee;
+	padding: 0.75em 1em;
+}
+
+#info-footer {
+position:absolute;
+top: 620px;
+right: 80px;
+}
+
+#info-footer li > span {
+color: #eee;
+display:inline-block;
+padding: 0.25em 0.5em;
+}

@@ -1,34 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>Visualizing 500 Days of Summer</title>
-		<script type="text/javascript" src="./js/d3.v3.js"></script>		
-		<link rel='stylesheet' id='main-styles' href='main.css' type='text/css' media='all'/>
-		<script type="text/javascript" src="./js/main2.js"></script>
-	</head>
-	<body>	
-	<div id="main-c">
-		<div id="info-c">
-			<div id="day"><span>500 Days</span></div>
-			<div id="place">Visualizing the movie narrative of 500 Days of Summer.</div>
-			<div id="quote"><pre></pre></div>
-		</div>
-		<center id="svg-c"></center>
-		<div id="heading-c">
-			<h3>Visualizing 500 Days of Summer</h3>
-			<h4>By Rasagy Sharma, NID Bangalore<br />View the code on <a href="https://github.com/rasagy/500days" style="color:#A5AAD9; background-color: #eee; padding: 0px 5px;">Github</a></h4>
-		</div>
-		<div id="info-footer">
-		<div class="heading"></div>
-			<ul>
-				<li style='color:#FE4365'> ❤ <span style='background-color:#FE4365'>Together</span></li>
-				<li style='color:#7E5686'> ♡ &nbsp;<span style='background-color:#7E5686'> Not together</span></li>
-				<li style='color:#A5AAD9'> ♡ &nbsp;<span style='background-color:#A5AAD9'> Acquaintance</span></li>
-			</ul>
-		</div>
-	</div>
-		<script type="text/javascript">
 
 //Color Pallete
 // var love_colors = ["#83AF9B", "#C8C8A9", "#FE4365"];	//http://www.colourlovers.com/palette/629637/(%E2%97%95%E3%80%9D%E2%97%95)
@@ -287,6 +256,3 @@ var love_colors = ["#7E5686", "#A5AAD9", "#FE4365"];		//http://www.colourlovers.
 		clearTimeout(fadeDay);
 		fadeDay = setTimeout(function() { document.getElementById('day').style.opacity = 0.7;}, 500);
 	}
-		</script>
-	</body>
-</html>
