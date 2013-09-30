@@ -54,10 +54,16 @@ table {
 
 /* /////////////// Main CSS ////////////// */
 
+body {
+	background: #f8f8f8;
+}
+
 #main-c {
-width: 900px;
-margin: 0 auto;
+width: 800px;
+margin: 20px auto;
 position:relative;
+font-family: Helvetica, Arial, sans-serif;
+background: #fff;
 }
 
 #heading-c {
@@ -66,44 +72,50 @@ opacity:0;
 -moz-transition: opacity 0.5s;
 -o-transition: opacity 0.5s;
 transition: opacity 0.5s;
-padding: 10px 30px;
+padding: 10px 20px;
 min-height: 50px;
-font-family: Helvetica, Arial, sans-serif;
 position: absolute;
 top:10px;
+left:-20px;
+background:rgba(250,250,250,0.75);
+border: 2px solid #eee;
 z-index: 100;
 }
 
 #heading-c h3 {
 font-weight: bold;
 color: #A5AAD9;
+line-height: 1.5em;
 }
 
 #heading-c h4 {
-color: #ccc;
+color: #aaa;
 font-size: 0.8em;
-line-height: 1.25em;
+line-height: 1.4em;
 }
 
-a {
-color:#A5AAD9; 
-background-color: #eee; 
-padding: 0px 5px;
+#heading-c a {
+color:#A5AAD9;
+padding: 2px 3px;
+}
+#heading-c a:hover {
+color: #999fcc;
+background-color: #eee;
 }
 
 #info-c {
 position:absolute;
-width: 900px;
-padding: 50px 30px 0;
+width: 760px;
+padding: 50px 20px;
 }
 
 #info-c > div {
 text-align: center;
+opacity: 0.5;
 }
 
 #day {
 font-size: 4em;
-font-family: Helvetica;
 padding-bottom: 5px;
 -webkit-transition: opacity 0.5s;
 -moz-transition: opacity 0.5s;
@@ -121,8 +133,6 @@ transition: 0.5s;
 
 #place {
 font-size: 1em;
-font-weight: bold;
-font-family: Helvetica, Arial ,sans-serif;
 -webkit-transition: opacity 1s;
 -moz-transition: opacity 1s;
 -o-transition: opacity 1s;
@@ -151,9 +161,11 @@ color: #bbb;
 }
 
 #info-footer {
+visibility: hidden;
 position:absolute;
 top: 550px;
-right: 70px;
+left: 635px;
+font-size: 0.9em;
 }
 
 #info-footer li > span {
@@ -170,7 +182,59 @@ text-align: center;
 }
 
 #info-footer .heading {
-padding: 5px;
-font-style:italic;
+padding: 5px 0px 5px 25px;
+font-style: italic;
+}
+
+#splash {
+position:absolute;
+top: 200px;
+left: 100px;
+width: 560px;
+background: #050505 url("./data/500-days-bg.jpg") no-repeat;
+border: 2px solid #999;
+padding: 150px 20px 20px 20px;
+
 text-align:center;
+
+opacity: 1;
+-webkit-transition: opacity 0.5s;
+-moz-transition: opacity 0.5s;
+-o-transition: opacity 0.5s;
+transition: opacity 0.5s;
+}
+#splash h2 {
+color: #eee;
+font-family: Georgia, serif;
+font-size: 2em;
+padding: 0.5em 0;
+}
+#splash p{
+color: #bbb;
+padding: 0.2em 0;
+font-size: 0.8em;
+line-height: 1.2em;
+}
+#splash em{
+color: #ddd;
+font-style: italic;
+}
+
+#splash button {
+margin: 0;
+}
+
+#splash button {
+background: #eee;
+border: 2px solid #ccc;
+padding: 0.5em 1em;
+margin: 1em 0 0 0;
+color: #111;
+font-weight: bold;
+border-radius: 2px;
+}
+#splash button:hover {
+background: #fff;
+border-color: #aaa;
+color: #000;
 }
