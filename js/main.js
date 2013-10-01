@@ -80,7 +80,7 @@ function generateViz() {
                 .transition()
                 .duration(aDelay*2)
                 .ease("linear")
-                .delay(function(d,i) {return i*(aDelay-i*3) + initDelay;})
+                .delay(function(d,i) {return i*(aDelay) + initDelay;})
                 .attr({  
                   'stroke': "rgb(210,220,240)",
                   'stroke-width': "4",
@@ -89,7 +89,7 @@ function generateViz() {
                 .transition()
                 .duration(aDelay/2)
                 .ease("linear")
-                .delay(function(d,i) {return (i+1)*(aDelay-i*3) + initDelay;})
+                .delay(function(d,i) {return (i+1)*(aDelay) + initDelay;})
                 .attr({  
                   'stroke-width': "1",
                   'stroke': love_colors[1]
@@ -140,7 +140,7 @@ function generateViz() {
                     .transition()
                     .duration(aDelay*2/3)
                     .ease("linear")
-                    .delay(function(d,i) {return (i)*(aDelay-i*3) + initDelay +200;})
+                    .delay(function(d,i) {return (i)*(aDelay) + initDelay +200;})
                     .attr({
                       r: function(d,i) {
                         if(d.Day!="x")
@@ -148,7 +148,7 @@ function generateViz() {
                           setTimeout(function () {
                             showText(d.Together*1, d.Day, d.Summary);
                             console.log("Updated with: "+d.Summary+" on "+d.Day);
-                          },(i)*(aDelay-i*3) + initDelay + 200);
+                          },(i)*(aDelay) + initDelay + 200);
                           //console.log("R for "+d.Scene+" = "+d.Scene*rScale/250+3);
                           return d.Scene*rScale/100+5;
                         } 
