@@ -103,6 +103,15 @@ color: #999fcc;
 background-color: #eee;
 }
 
+#heading-c a.btn-tweet:hover {
+color: #fff;
+background-color: #41b7d8;
+}
+#heading-c a.btn-facebook:hover {
+color: #fff;
+background-color: #3b5997;
+}
+
 #info-c {
 position:absolute;
 width: 760px;
@@ -237,4 +246,9 @@ border-radius: 2px;
 background: #fff;
 border-color: #aaa;
 color: #000;
+}
+#screen {
+	visibility: hidden;
+	position:absolute;
+	z-index: -1;
 }

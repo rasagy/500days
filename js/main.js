@@ -1,22 +1,29 @@
-//Color Pallete
-// var love_colors = ["#83AF9B", "#C8C8A9", "#FE4365"];  //http://www.colourlovers.com/palette/629637/(%E2%97%95%E3%80%9D%E2%97%95)
-// var love_colors = ["#028F76", "#FFEAAD", "#D14334"];    //http://www.colourlovers.com/palette/1283145/The_Way_You_Love_Me
-// var love_colors = ["#7E5686", "#A5AAD9", "#BA3C3D"];    //http://www.colourlovers.com/palette/2641140/Burning_Love
-var love_colors = ["#7E5686", "#A5AAD9", "#FE4365"];    //http://www.colourlovers.com/palette/2641140/Burning_Love
+/*
+Main javascript code for Visualizing 500 Days of summer
+Output on: http://bit.ly/500DaysViz
+Blog with process on: http://rasagy.in/blog/2013/09/visualizing-500-days-of-summer/
 
-  //d3.csv("./data/Pi-150-v2.csv", function(data) { console.log(data); });
+If you have suggestions to improve the code, please feel free to comment on the blog/send a pull request/tweet to @rasagy!
+*/
+
 var w=700;
 var h=700;
 
 //Var for plotting
 var delta = 50;
-var xScale = w/(500+delta*2);        
+var xScale = w/(500+delta*2);
 var rScale=4;  //Scale for day-circles
 
 var initDelay = 1500;  //Initial Delay before starting
 var aDelay=750;  //Delay per day
 var fadeDay; //Timeout for fading day text
-var isAniOver = false;        
+var isAniOver = false;
+
+//Color Pallete
+// var love_colors = ["#83AF9B", "#C8C8A9", "#FE4365"];  //http://www.colourlovers.com/palette/629637/(%E2%97%95%E3%80%9D%E2%97%95)
+// var love_colors = ["#028F76", "#FFEAAD", "#D14334"];    //http://www.colourlovers.com/palette/1283145/The_Way_You_Love_Me
+// var love_colors = ["#7E5686", "#A5AAD9", "#BA3C3D"];    //http://www.colourlovers.com/palette/2641140/Burning_Love
+var love_colors = ["#7E5686", "#A5AAD9", "#FE4365"];    //http://www.colourlovers.com/palette/2641140/Burning_Love
 
 var svg=d3.select("#svg-c")
       .append("svg")
@@ -27,15 +34,12 @@ var myData;
 
 d3.csv("./data/500-days-data.csv", function(error,data)
 {
-  if (error) {  
+  if (error) {
     //If error is not null, something went wrong.
     console.log(error);  //Log the error.
-  } else {      
+  } else {
     //If no error, the file loaded correctly. Yay!
     console.log("Dataset loaded!");
-
-    // myData = data.map(function(d) { return [ +d["Scene"], d["Day"] ]; });
-    //console.log(myData);   //Log the data.
     myData=data;    
    }
  });
@@ -56,7 +60,7 @@ function generateViz() {
                 .enter()
                 .append("path")
                 .attr({
-                  d: function(d,i) {                          
+                  d: function(d,i) {
                     var nextX = xPos(d.Day);
                     if(nextX>0)
                     {
@@ -64,7 +68,7 @@ function generateViz() {
                       var r = Math.abs((nextX-prevX)/2);
                       lastDay = d.Day;
                       // console.log("M "+prevX+" "+(h/2)+" A "+r+" "+r+" 0 0 1 "+nextX+" "+(h/2));
-                      return "M "+prevX+" "+(h/2)+" A "+r+" "+(r)+" 0 0 1 "+nextX+" "+(h/2);      
+                      return "M "+prevX+" "+(h/2)+" A "+r+" "+(r)+" 0 0 1 "+nextX+" "+(h/2);
                     } else return "M 0 0";
                   },
                   'fill': 'none',
@@ -131,7 +135,7 @@ function generateViz() {
                               .attr("opacity", 0.5);
                               if(isAniOver) {
                                 showText(1, 500,"(<em>Hover over the bubbles for scene description & quotes!</em>)");
-                              }                                    
+                              }
                     })
                     .transition()
                     .duration(aDelay*2/3)
@@ -143,7 +147,7 @@ function generateViz() {
                         {
                           setTimeout(function () {
                             showText(d.Together*1, d.Day, d.Summary);
-                            console.log("Updated with: "+d.Summary+" on "+d.Day);                            
+                            console.log("Updated with: "+d.Summary+" on "+d.Day);
                           },(i)*(aDelay-i*3) + initDelay + 200);
                           //console.log("R for "+d.Scene+" = "+d.Scene*rScale/250+3);
                           return d.Scene*rScale/100+5;
@@ -153,12 +157,13 @@ function generateViz() {
                       fill: function(d) {
                         return love_colors[d.Together*1+1];
                       },
-                      opacity: 0.5
+                      opacity: 0.3
                     });
 
 } //End generateViz()
 
 function setScale() {
+//Make axis
 
   svg.append("line")
       .attr({x1: delta, y1:h/2, x2: delta+500*xScale, y2:h/2, stroke: "#fafafa"});
@@ -265,7 +270,7 @@ function showFullText(t_status, t_day, t_desc, t_quote) {
   if(quote_c.style.opacity <0.5) quote_c.style.opacity = 0.8;
 
   if(t_status == 1) {
-    day_c.innerHTML = "<span style='color:"+love_colors[2]+"'> ❤"+t_day+"</span>";    
+    day_c.innerHTML = "<span style='color:"+love_colors[2]+"'> ❤"+t_day+"</span>";
     quote_c.innerHTML = "<pre style='background:"+love_colors[2]+"'>"+t_quote+"</pre>";
   }
   else if(t_status == -1) {
@@ -321,5 +326,5 @@ function xPos(day) {
   // dummy=d*1;
   return(delta+day*xScale);
   }
-  else return 0;      
+  else return 0;
 }
