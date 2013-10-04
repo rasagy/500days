@@ -14,8 +14,8 @@ var delta = 50;
 var xScale = w/(500+delta*2);
 var rScale=4;  //Scale for day-circles
 
-var initDelay = 1500;  //Initial Delay before starting
-var aDelay=750;  //Delay per day
+var initDelay = 2500;  //Initial Delay before starting
+var aDelay=1000;  //Delay per day
 var fadeDay; //Timeout for fading day text
 var isAniOver = false;
 
@@ -75,7 +75,7 @@ function generateViz() {
                   'opacity': 0.6,
                   'stroke': "rgb(10,20,40)", //250
                   'stroke-width': "2",
-                  'stroke-dasharray': "0, 2500"
+                  'stroke-dasharray': "0, 3000"
                 })
                 .transition()
                 .duration(aDelay*2)
@@ -84,7 +84,7 @@ function generateViz() {
                 .attr({  
                   'stroke': "rgb(210,220,240)",
                   'stroke-width': "4",
-                  'stroke-dasharray': "2500, 0"
+                  'stroke-dasharray': "3000, 0"
                 })
                 .transition()
                 .duration(aDelay/2)
