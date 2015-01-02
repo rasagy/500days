@@ -3,18 +3,16 @@
 
 ### Visualizing the narrative of 500 Days of Summer (Movie)
 
-Current progress on: http://rasagy.github.io/500days
+Final Visualization: http://rasagy.in/500days
 
-## Todo
+Read more about the process here: [Visualizing 500 days of Summer: Process](rasagy.in/blog/2013/09/visualizing-500-days-of-summer/)
 
-* Add Play button instead of auto-play
+## Future directions
 
-* Add description during animation (Desc/quotes/short text) (HT Prakhar)
-
-* Add Explanatory text below the viz (What/How/Who)
-
-* Create Print poster (A4?)
-
-* Create Physical Visualization (HT Venkat)
-
-* Add icons for each scene (Maybe!)
+- [ ] Add Play button instead of auto-play
+- [x] Add description during animation (Desc/quotes/short text) (HT Prakhar)
+- [ ] Add Explanatory text below the viz (What/How/Who)
+- [x] Create Print poster (A4?)
+- [ ] Create Physical Visualization (HT Venkat)
+- [ ] Add icons for each scene (Maybe!)
+- [ ] Consolidate the findings into a paper (HT Venkat)
